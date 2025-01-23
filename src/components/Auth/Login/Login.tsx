@@ -2,14 +2,20 @@ import classes from './Login.module.scss';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../../../store/slices/AuthPageSlice.slice.ts';
+import { useLoginUserMutation } from '../../../store/Api.ts';
 
-interface TypeFormLogin {
+export interface TypeFormLogin {
   login: string;
   password: string;
 }
 
 export default function Login() {
   const dispatch = useDispatch();
+  const [loginUser, { isError, isLoading }] = useLoginUserMutation();
+
+  const LoginRequest = async (data: TypeFormLogin) => {
+    await loginUser(data).unwrap();
+  };
 
   const {
     register,
@@ -19,13 +25,9 @@ export default function Login() {
     mode: 'onBlur',
   });
 
-  function request(data: TypeFormLogin): void {
-    console.log(data);
-  }
-
   return (
     <>
-      <form onSubmit={handleSubmit(request)} className={classes.form}>
+      <form onSubmit={handleSubmit(LoginRequest)} className={classes.form}>
         <p className={classes.heading}>Авторизация</p>
         <div className={classes.inputArea}>
           <label>

@@ -10,7 +10,7 @@ import { IoIosColorPalette } from 'react-icons/io';
 import { MdFormatListNumbered } from 'react-icons/md';
 import { CiLink } from 'react-icons/ci';
 
-let ms = [
+const ms = [
   {
     id: 'Беклог',
     tasks: [
@@ -70,8 +70,8 @@ interface IBoard {
 }
 
 export default function TaskPage() {
-  const [tasksByStatus, setTasksByStatus] = useState(ms);
-  const [dataTasks, setDataTasks] = useState(ms);
+  const [displayedTasks, setDisplayedTasks] = useState(ms);
+  const [currentTaskSet, setCurrentTaskSet] = useState(ms);
 
   const [currentBoard, setCurrentBoard] = useState<IBoard | null>(null);
   const [currentItem, setCurrentItem] = useState<ITask | null>(null);
@@ -99,6 +99,10 @@ export default function TaskPage() {
   }
 
   function dragStartHandler(board: IBoard, task: ITask): void {
+    const index = currentTaskSet.findIndex((b) => b.id === board.id);
+    if (index !== -1) {
+      board = currentTaskSet[index];
+    }
     setCurrentBoard(board);
     setCurrentItem(task);
   }
@@ -120,14 +124,15 @@ export default function TaskPage() {
       e.target.style.border = 'none';
       e.target.style.boxShadow = 'none';
     }
-
-    if (currentBoard && currentItem) {
+    const index = currentTaskSet.findIndex((b) => b.id === board.id);
+    if (currentBoard && currentItem && index !== -1) {
+      board = currentTaskSet[index];
       const currentIndex = currentBoard.tasks.indexOf(currentItem);
       currentBoard.tasks.splice(currentIndex, 1);
       const dropIndex = board.tasks.indexOf(task);
       board.tasks.splice(dropIndex + 1, 0, currentItem);
-      setTasksByStatus(
-        tasksByStatus.map((b) => {
+      setCurrentTaskSet(
+        currentTaskSet.map((b) => {
           if (b.id === board.id) {
             return board;
           }
@@ -137,17 +142,25 @@ export default function TaskPage() {
           return b;
         }),
       );
-      setDataTasks(tasksByStatus);
+
+      setDisplayedTasks(currentTaskSet);
     }
   }
 
   function dropCardHandler(board: IBoard) {
-    if (currentBoard && currentItem && board.tasks.length == 0) {
+    const index = currentTaskSet.findIndex((b) => b.id === board.id);
+    if (
+      currentBoard &&
+      currentItem &&
+      board.tasks.length == 0 &&
+      index !== -1
+    ) {
+      board = currentTaskSet[index];
       board.tasks.push(currentItem);
       const currentIndex = currentBoard.tasks.indexOf(currentItem);
       currentBoard.tasks.splice(currentIndex, 1);
-      setTasksByStatus(
-        tasksByStatus.map((b) => {
+      setCurrentTaskSet(
+        currentTaskSet.map((b) => {
           if (b.id === board.id) {
             return board;
           }
@@ -157,7 +170,7 @@ export default function TaskPage() {
           return b;
         }),
       );
-      setDataTasks(tasksByStatus);
+      setDisplayedTasks(currentTaskSet);
     }
   }
 
@@ -165,7 +178,7 @@ export default function TaskPage() {
     setSearchQuery(query);
   };
 
-  const filteredTasksByStatus = dataTasks.map((board) => ({
+  const filteredDisplayedTasks = currentTaskSet.map((board) => ({
     ...board,
     tasks: board.tasks.filter((task) =>
       task.title.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -173,8 +186,10 @@ export default function TaskPage() {
   }));
 
   useEffect(() => {
-    setTasksByStatus(filteredTasksByStatus);
-  }, [searchQuery]);
+    setDisplayedTasks(filteredDisplayedTasks);
+  }, [searchQuery, currentTaskSet]);
+
+  useEffect(() => {}, [displayedTasks, currentTaskSet]);
 
   return (
     <>
@@ -182,7 +197,7 @@ export default function TaskPage() {
         <div className={classes.container}>
           <HeaderTaskPage onSearch={handleSearch} />
           <div className={classes.boardsContainer}>
-            {tasksByStatus.map((board) => (
+            {displayedTasks.map((board) => (
               <div
                 key={board.id}
                 className={classes.boards}

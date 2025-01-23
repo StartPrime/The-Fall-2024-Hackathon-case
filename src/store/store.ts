@@ -1,39 +1,43 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import {
-	persistReducer,
-	persistStore,
-	FLUSH,
-	REHYDRATE,
-	PAUSE,
-	PERSIST,
-	PURGE,
-	REGISTER,
-} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import AuthPageSlice from './slices/AuthPageSlice.slice.ts'
+  persistReducer,
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import AuthPageSlice from './slices/AuthPageSlice.slice.ts';
+import { api } from './Api.ts';
 
 const rootReducer = combineReducers({
-	authPage: AuthPageSlice,
-})
+  authPage: AuthPageSlice,
+});
 
 const persistConfig = {
-	key: 'root',
-	storage,
-	blacklist: ['authPage'],
-}
+  key: 'root',
+  storage,
+  blacklist: ['authPage'],
+};
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-	reducer: persistedReducer,
-	devTools: true,
-	middleware: getDefaultMiddleware =>
-		getDefaultMiddleware({
-			serializableCheck: {
-				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-			},
-		}),
-})
+  reducer: { [api.reducerPath]: api.reducer, persistedReducer },
+  devTools: true,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(api.middleware),
+});
 
-export const persistor = persistStore(store)
-export default store
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export const persistor = persistStore(store);
+export default store;
