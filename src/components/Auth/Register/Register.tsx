@@ -2,6 +2,7 @@ import classes from './Register.module.scss';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../../../store/slices/AuthPageSlice.slice.ts';
+import { useRegisterUserMutation } from '../../../store/Api.ts';
 
 interface IFormLogin {
   initials: string;
@@ -12,6 +13,7 @@ interface IFormLogin {
 
 export default function Register() {
   const dispatch = useDispatch();
+  const [registerUser, { isError, isLoading }] = useRegisterUserMutation();
 
   const {
     register,
@@ -22,7 +24,7 @@ export default function Register() {
     mode: 'onBlur',
   });
 
-  function request(data: IFormLogin): void {
+  async function request(data: IFormLogin): Promise<void> {
     const splitInitials = data.initials.split(' ');
 
     interface IFormLoginSplitInitials
@@ -39,7 +41,8 @@ export default function Register() {
       login: data.login,
       password: data.password,
     };
-    console.log(userData);
+
+    await registerUser(userData).unwrap();
   }
 
   return (
@@ -117,7 +120,11 @@ export default function Register() {
             </p>
           )}
         </div>
-
+        {isError && (
+          <p className={classes.errorMessage}>
+            Произошла ошибка, повторите попытку позже
+          </p>
+        )}
         <div className={classes.navigation}>
           <button disabled={!isValid} type="submit">
             Зарегистрироваться

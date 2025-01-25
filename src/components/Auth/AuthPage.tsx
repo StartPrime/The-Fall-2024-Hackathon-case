@@ -3,6 +3,7 @@ import classes from './AuthPage.module.scss';
 import { useSelector } from 'react-redux';
 import Register from './Register/Register';
 import { RootState } from '../../store/store.ts';
+import Loading from '../LoadingPage/Loading.tsx';
 
 export default function AuthPage() {
   const page = useSelector(
