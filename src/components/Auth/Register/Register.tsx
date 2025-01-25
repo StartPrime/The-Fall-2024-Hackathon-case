@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setPage } from '../../../store/slices/AuthPageSlice.slice.ts';
 import { useRegisterUserMutation } from '../../../store/Api.ts';
 
-interface IFormLogin {
+interface IRegister {
   initials: string;
   login: string;
   password: string;
@@ -20,15 +20,15 @@ export default function Register() {
     handleSubmit,
     watch,
     formState: { errors, isValid },
-  } = useForm<IFormLogin>({
+  } = useForm<IRegister>({
     mode: 'onBlur',
   });
 
-  async function request(data: IFormLogin): Promise<void> {
+  async function request(data: IRegister): Promise<void> {
     const splitInitials = data.initials.split(' ');
 
     interface IFormLoginSplitInitials
-      extends Omit<IFormLogin, 'initials' | 'passwordRepeat'> {
+      extends Omit<IRegister, 'initials' | 'passwordRepeat'> {
       name: string;
       surname: string;
       middleName: string;

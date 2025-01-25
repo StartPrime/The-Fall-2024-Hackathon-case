@@ -11,16 +11,20 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import AuthPageSlice from './slices/AuthPageSlice.slice.ts';
+import UserSlice from './slices/User.slice.ts';
+import TaskSlice from './slices/Task.slice.ts';
 import { api } from './Api.ts';
 
 const rootReducer = combineReducers({
   authPage: AuthPageSlice,
+  userData: UserSlice,
+  task: TaskSlice,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['authPage'],
+  blacklist: ['authPage', 'userData', 'task'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

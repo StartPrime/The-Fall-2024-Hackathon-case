@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setPage } from '../../../store/slices/AuthPageSlice.slice.ts';
 import { useLoginUserMutation } from '../../../store/Api.ts';
 
-export interface TypeFormLogin {
+export interface ILogin {
   login: string;
   password: string;
 }
@@ -13,7 +13,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const [loginUser, { isError, isLoading }] = useLoginUserMutation();
 
-  const LoginRequest = async (data: TypeFormLogin) => {
+  const LoginRequest = async (data: ILogin) => {
     await loginUser(data).unwrap();
   };
 
@@ -21,7 +21,7 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<TypeFormLogin>({
+  } = useForm<ILogin>({
     mode: 'onBlur',
   });
 
