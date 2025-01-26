@@ -3,6 +3,7 @@ export interface ITask {
   title: string;
   assignee: string;
   description: string;
+  createdAt: string;
 }
 
 export interface IBoard {

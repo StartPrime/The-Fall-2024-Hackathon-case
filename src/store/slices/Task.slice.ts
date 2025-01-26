@@ -9,6 +9,7 @@ const TaskSlice = createSlice({
       title: '',
       assignee: '',
       description: '',
+      createdAt: '',
     } as ITask,
     boardId: '',
     taskStatus: 'old',
@@ -43,6 +44,7 @@ const TaskSlice = createSlice({
         title: '',
         assignee: '',
         description: '',
+        createdAt: '',
       };
       state.boardId = '';
       state.taskStatus = 'old';

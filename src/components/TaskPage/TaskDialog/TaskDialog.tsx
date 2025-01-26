@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store.ts';
 import { ITask } from '../../../interfaces.ts';
+import { formatDateStringWithoutDateObject } from '../../../utils.ts';
+import { getCurrentDateInISOFormat } from '../../../utils.ts';
 import {
   updateTask,
   deleteTask,
@@ -33,6 +35,8 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
   useEffect(() => {
     setCurrentTask(task);
   }, [task]);
+
+  const data = new Date().toLocaleDateString('ru-RU');
 
   return (
     <dialog ref={dialogRef} className={classes.dialogWindow}>
@@ -74,6 +78,16 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
             }
           ></textarea>
         </div>
+        {taskStatus === 'new' ? (
+          <p>Дата создания: {data}</p>
+        ) : (
+          <p>
+            Дата создания:{' '}
+            {task.createdAt &&
+              formatDateStringWithoutDateObject(task.createdAt)}
+          </p>
+        )}
+
         <div className={classes.editor}>
           <LiaItalicSolid size={30} />
           <BsTypeBold size={30} />
@@ -88,6 +102,7 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
             <button
               onClick={() => {
                 if (dialogRef.current) {
+                  currentTask.createdAt = getCurrentDateInISOFormat();
                   dispatch(addTask({ boardId, newTask: currentTask }));
                   dispatch(clearTask());
                   dialogRef.current.close();
@@ -108,9 +123,12 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
             </button>
             <button
               onClick={() => {
-                dispatch(deleteTask({ boardId, taskId: currentTask.id }));
-                if (dialogRef.current) {
-                  dialogRef.current.close();
+                const req = confirm('Удалить задачу?');
+                if (req) {
+                  dispatch(deleteTask({ boardId, taskId: currentTask.id }));
+                  if (dialogRef.current) {
+                    dialogRef.current.close();
+                  }
                 }
               }}
             >
