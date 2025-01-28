@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUser, ITask, IBoard } from '../../interfaces.ts';
+import { IUser, ITask, IBoard, IUserInfo } from '../../interfaces.ts';
 const ms: IBoard[] = [
   {
     id: 'Беклог',
@@ -85,10 +85,14 @@ const ms: IBoard[] = [
 const UserSlice = createSlice({
   name: 'userSlice',
   initialState: {
-    userInfo: {},
+    userInfo: {} as IUserInfo,
     boards: ms,
   } as IUser,
   reducers: {
+    setUserInfo: (state, action: PayloadAction<{ data: IUserInfo }>) => {
+      state.userInfo = action.payload.data;
+    },
+
     addTask: (
       state,
       action: PayloadAction<{ boardId: string; newTask: ITask }>,
@@ -170,5 +174,6 @@ const UserSlice = createSlice({
   },
 });
 
-export const { updateTask, deleteTask, moveTask, addTask } = UserSlice.actions;
+export const { updateTask, deleteTask, moveTask, addTask, setUserInfo } =
+  UserSlice.actions;
 export default UserSlice.reducer;

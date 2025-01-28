@@ -15,3 +15,18 @@ export interface IUser {
   userInfo: object;
   boards: IBoard[];
 }
+
+export interface IUserInfo {
+  id: number;
+  login: string;
+  name: string;
+  surname: string;
+  middleName: string;
+}
+
+export interface ApiError {
+  status: string;
+  originalStatus: number;
+  data: string;
+  error: string;
+}

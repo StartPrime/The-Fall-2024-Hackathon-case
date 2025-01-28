@@ -59,6 +59,7 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
           }}
         />
       </div>
+
       <div className={classes.dialogMainInfo}>
         <textarea
           placeholder="Текст..."
@@ -87,7 +88,6 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
               formatDateStringWithoutDateObject(task.createdAt)}
           </p>
         )}
-
         <div className={classes.editor}>
           <LiaItalicSolid size={30} />
           <BsTypeBold size={30} />

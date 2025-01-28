@@ -4,17 +4,37 @@ import { useDispatch } from 'react-redux';
 import { setPage } from '../../../store/slices/AuthPageSlice.slice.ts';
 import { useLoginUserMutation } from '../../../store/Api.ts';
 
-export interface ILogin {
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+interface ILogin {
   login: string;
   password: string;
 }
 
+interface ILoginError {
+  status: number;
+  data: string | null;
+}
+
 export default function Login() {
   const dispatch = useDispatch();
-  const [loginUser, { isError, isLoading }] = useLoginUserMutation();
+  const [loginUser, { isError }] = useLoginUserMutation();
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const LoginRequest = async (data: ILogin) => {
-    await loginUser(data).unwrap();
+    try {
+      const response = await loginUser(data).unwrap();
+      window.localStorage.setItem('token', response.token);
+      navigate('/tasks');
+    } catch (e: unknown) {
+      console.log(e);
+      const error = e as ILoginError;
+      if (error.status === 403) {
+        setError('Неправильный логин или пароль');
+      }
+    }
   };
 
   const {
@@ -57,7 +77,15 @@ export default function Login() {
             <p className={classes.errorMessage}>{errors.password.message}</p>
           )}
         </div>
-
+        {error ? (
+          <p className={classes.errorMessage}>{error}</p>
+        ) : (
+          isError && (
+            <p className={classes.errorMessage}>
+              Произошла ошибка, повторите попытку позже
+            </p>
+          )
+        )}
         <div className={classes.navigation}>
           <button disabled={!isValid} type="submit">
             Вход
