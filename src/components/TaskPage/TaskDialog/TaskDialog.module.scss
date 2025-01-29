@@ -48,15 +48,6 @@
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 5px 5px 5px rgb(159, 137, 211);
-
-  textarea {
-    font-size: 18px;
-    padding: 10px;
-    resize: none;
-    height: auto;
-    outline: none;
-    border: none;
-  }
 }
 
 .dialogButtons {
@@ -100,4 +91,12 @@
 .assigneeTextAreaDialog {
   display: flex;
   align-items: center;
+}
+
+.toolbarClass {
+  padding: 10px;
+  border-radius: 10px !important;
+  box-shadow: 0 0 5px rgb(159, 137, 211);
+  display: flex;
+  gap: 5px;
 }

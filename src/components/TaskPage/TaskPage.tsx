@@ -4,7 +4,11 @@ import { useState, DragEvent, useRef } from 'react';
 import { GoPlus } from 'react-icons/go';
 import { useSelector, useDispatch } from 'react-redux';
 import { moveTask } from '../../store/slices/User.slice.ts';
-import { setTask, setTaskStatus } from '../../store/slices/Task.slice.ts';
+import {
+  setTask,
+  setTaskStatus,
+  clearTask,
+} from '../../store/slices/Task.slice.ts';
 import { RootState } from '../../store/store.ts';
 import TaskDialog from './TaskDialog/TaskDialog.tsx';
 import { ITask, IBoard } from '../../interfaces.ts';
@@ -14,6 +18,7 @@ export default function TaskPage() {
   const boards = useSelector(
     (state: RootState) => state.persistedReducer.userData.boards,
   );
+
   const dispatch = useDispatch();
 
   const [currentBoard, setCurrentBoard] = useState<IBoard>({
@@ -84,7 +89,7 @@ export default function TaskPage() {
       });
     }
 
-    return tasks; // Вернуть исходный массив, если тип сортировки не поддерживается
+    return tasks;
   }
 
   function filterAndSortTasks(
@@ -147,8 +152,6 @@ export default function TaskPage() {
                       </p>
 
                       <hr />
-                      <p>{task.description}</p>
-                      <hr />
                       {task.assignee ? (
                         <p>Ответственный: {task.assignee}</p>
                       ) : (
@@ -163,6 +166,7 @@ export default function TaskPage() {
                     <GoPlus size={30} />
                     <p
                       onClick={() => {
+                        dispatch(clearTask());
                         dispatch(
                           setTaskStatus({
                             taskStatus: 'new',

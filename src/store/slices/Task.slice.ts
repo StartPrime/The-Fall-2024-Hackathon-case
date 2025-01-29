@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ITask } from '../../interfaces.ts';
+import { convertToRaw, EditorState } from 'draft-js';
 
 const TaskSlice = createSlice({
   name: 'task',
