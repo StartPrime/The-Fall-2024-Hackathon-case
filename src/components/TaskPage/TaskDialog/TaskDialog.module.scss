@@ -8,8 +8,8 @@
   box-shadow: 5px 5px 5px rgb(159, 137, 211);
   animation: open 1s forwards;
   background-color: rgb(232, 212, 249);
-  width: 700px;
-  height: 500px;
+  width: 50vw;
+  height: 60vh;
   padding: 20px;
 
   @keyframes open {
@@ -100,8 +100,4 @@
 .assigneeTextAreaDialog {
   display: flex;
   align-items: center;
-}
-
-.textEditor {
-  width: 100%;
 }

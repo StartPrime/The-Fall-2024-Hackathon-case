@@ -1,12 +1,5 @@
 import classes from './TaskDialog.module.scss';
 import { RxCross1 } from 'react-icons/rx';
-import { LiaItalicSolid } from 'react-icons/lia';
-import { BsTypeBold } from 'react-icons/bs';
-import { PiTextAUnderline } from 'react-icons/pi';
-import { RiFontSize2 } from 'react-icons/ri';
-import { IoIosColorPalette } from 'react-icons/io';
-import { MdFormatListNumbered } from 'react-icons/md';
-import { CiLink } from 'react-icons/ci';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store.ts';
@@ -19,6 +12,7 @@ import {
   addTask,
 } from '../../../store/slices/User.slice.ts';
 import { clearTask } from '../../../store/slices/Task.slice.ts';
+import MyEditor from './Editor/Editor.tsx';
 
 interface CardDialogProps {
   dialogRef: React.RefObject<HTMLDialogElement>;
@@ -61,23 +55,9 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
       </div>
 
       <div className={classes.dialogMainInfo}>
-        <textarea
-          placeholder="Текст..."
-          rows={5}
-          value={currentTask.description}
-          onChange={(e) =>
-            setCurrentTask({ ...currentTask, description: e.target.value })
-          }
-        ></textarea>
+        <MyEditor></MyEditor>
         <div className={classes.assigneeTextAreaDialog}>
-          <p>Ответственный: </p>
-          <textarea
-            rows={1}
-            value={currentTask.assignee}
-            onChange={(e) =>
-              setCurrentTask({ ...currentTask, assignee: e.target.value })
-            }
-          ></textarea>
+          <p>Ответственный: {task.assignee ? task.assignee : 'не назначен'}</p>
         </div>
         {taskStatus === 'new' ? (
           <p>Дата создания: {data}</p>
@@ -88,15 +68,6 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
               formatDateStringWithoutDateObject(task.createdAt)}
           </p>
         )}
-        <div className={classes.editor}>
-          <LiaItalicSolid size={30} />
-          <BsTypeBold size={30} />
-          <PiTextAUnderline size={30} />
-          <RiFontSize2 size={30} />
-          <IoIosColorPalette size={30} />
-          <MdFormatListNumbered size={30} />
-          <CiLink size={30} />
-        </div>
         {taskStatus === 'new' ? (
           <div className={classes.dialogButtons}>
             <button
