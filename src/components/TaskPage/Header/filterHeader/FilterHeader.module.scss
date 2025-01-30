@@ -1,0 +1,92 @@
+.filter {
+  position: absolute;
+  z-index: 1;
+  left: -11%;
+  top: 200%;
+  background-color: rgb(232, 212, 249);
+  border: 2px solid rgb(159, 137, 211);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  padding: 10px 15px;
+  border-radius: 10px;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  gap: 10px;
+
+  &::before {
+    border: 20px solid transparent;
+    border-bottom-color: rgb(159, 137, 211);
+    position: absolute;
+    bottom: 100%;
+    left: 24px;
+    content: '';
+  }
+  &::after {
+    border: 18px solid transparent;
+    border-bottom-color: rgb(232, 212, 249);
+    position: absolute;
+    bottom: 100%;
+    left: 26px;
+    content: '';
+  }
+
+  animation: openFilter 1s forwards;
+}
+
+@keyframes openFilter {
+  from {
+    transform: translateX(300%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.changeDate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  input {
+    background-color: rgb(159, 137, 211);
+    padding: 15px;
+    width: 180px;
+    color: #ffffff;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.assigneeFilter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.assigneeFilterText {
+  background-color: rgb(159, 137, 211);
+  padding: 15px;
+  width: 180px;
+  color: #ffffff;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.titleFilter {
+  font-size: 20px;
+}

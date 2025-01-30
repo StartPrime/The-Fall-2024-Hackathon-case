@@ -50,10 +50,18 @@ const ms: IBoard[] = [
   },
 ];
 
+const userInfo: IUserInfo = {
+  id: 1,
+  login: 'StartPrime',
+  name: 'Андрей',
+  surname: 'Горькавой',
+  middleName: 'Александрович',
+};
+
 const UserSlice = createSlice({
   name: 'userSlice',
   initialState: {
-    userInfo: {} as IUserInfo,
+    userInfo: userInfo,
     boards: ms,
   } as IUser,
   reducers: {

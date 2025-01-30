@@ -2,7 +2,8 @@ import classes from './Header.module.scss';
 import { RiAlignJustify, RiAccountCircleFill } from 'react-icons/ri';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useState, useRef, useEffect } from 'react';
-import { BsCheck2 } from 'react-icons/bs';
+import FilterHeader from './filterHeader/FilterHeader.tsx';
+import ProfileDialog from './ProfileDIalog/ProfileDialog.tsx';
 
 interface SearchProps {
   onSearch: (query: string) => void;
@@ -59,28 +60,8 @@ const HeaderTaskPage: React.FC<SearchProps> = ({ onSearch, onFilter }) => {
             }`}
           >
             <AiOutlineSearch />
-            {filter && (
-              <div ref={filterRef} className={classes.filter}>
-                <p className={classes.titleFilter}>Меню фильтра</p>
-                <div className={classes.changeDate}>
-                  <input
-                    type="date"
-                    defaultValue={new Date().toLocaleDateString()}
-                  ></input>
-                  <BsCheck2 />
-                </div>
-                <div className={classes.changeDate}>
-                  <input type="date"></input>
-                  <BsCheck2 />
-                </div>
-                <div className={classes.assigneeFilter}>
-                  <p className={classes.assigneeFilterText}>Ответственный</p>
-                  <BsCheck2 />
-                </div>
-                <p onClick={() => {}}>Применить</p>
-              </div>
-            )}
 
+            <FilterHeader filter={filter} filterRef={filterRef} />
             <input
               onChange={handleInputChange}
               type="search"
@@ -103,12 +84,7 @@ const HeaderTaskPage: React.FC<SearchProps> = ({ onSearch, onFilter }) => {
           />
         </form>
       </header>
-      <dialog ref={dialogRef} className={classes.dialogWindow}>
-        <p>Горькавой Андрей Александрович</p>
-        <p>Зарегистрирован 29.02.2024</p>
-        <p>Количество задач:</p>
-        <p>Количество досок:</p>
-      </dialog>
+      <ProfileDialog dialogRef={dialogRef} />
     </>
   );
 };

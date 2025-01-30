@@ -67,7 +67,7 @@ export default function Register() {
 
   return (
     <form onSubmit={handleSubmit(request)} className={classes.form}>
-      <p className={classes.heading}>Регистрация</p>
+      <p className={classes.title}>Регистрация</p>
       <div className={classes.inputArea}>
         <label>
           ФИО
@@ -121,7 +121,7 @@ export default function Register() {
           <p className={classes.errorMessage}>{errors.password.message}</p>
         )}
         <label>
-          Повторите пароль
+          Повторите
           <input
             type="password"
             className={errors?.passwordRepeat && classes.errorInput}

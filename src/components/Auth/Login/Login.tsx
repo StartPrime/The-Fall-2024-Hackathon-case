@@ -48,7 +48,7 @@ export default function Login() {
   return (
     <>
       <form onSubmit={handleSubmit(LoginRequest)} className={classes.form}>
-        <p className={classes.heading}>Авторизация</p>
+        <p className={classes.title}>Авторизация</p>
         <div className={classes.inputArea}>
           <label>
             Логин

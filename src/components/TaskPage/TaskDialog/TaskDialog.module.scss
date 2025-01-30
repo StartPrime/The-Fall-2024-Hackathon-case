@@ -11,14 +11,14 @@
   width: 50vw;
   height: 60vh;
   padding: 20px;
+}
 
-  @keyframes open {
-    from {
-      transform: translateY(-100%);
-    }
-    to {
-      transform: translateY(0%);
-    }
+@keyframes open {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0%);
   }
 }
 

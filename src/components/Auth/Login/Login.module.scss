@@ -6,47 +6,48 @@
   gap: 2rem;
   font-size: 20px;
   padding: 50px;
-  border-radius: 8px;
-  border: 2px solid rgb(159, 137, 211);
-  box-shadow: 5px 5px 5px rgb(159, 137, 211);
-
-  button {
-    background-color: rgb(93, 50, 192);
-    color: white;
-    width: 170px;
-    padding: 20px 0;
-    font-size: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: 5px 5px rgb(159, 137, 211);
-    }
-  }
+  border-radius: 20px;
+  border: 1px solid rgb(159, 137, 211);
+  box-shadow: 3px 3px 5px rgb(159, 137, 211);
 }
 
-.heading {
+.title {
   font-size: 34px;
+  border: 2px solid rgb(159, 137, 211);
+  background-color: rgb(109, 72, 194);
+  padding: 10px 50px;
+  border-radius: 25px;
+  box-shadow: 6px 6px 5px rgb(179, 167, 207);
+  color: white;
 }
 
 .inputArea {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+  color: rgb(109, 72, 194);
+  font-weight: bold;
 
   label {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 2rem;
 
     input {
-      width: 200px;
-      height: 34px;
-      background-color: rgb(217, 217, 217);
+      border-radius: 30px;
+      width: 60%;
+      height: 2.5rem;
+      padding-left: 5px;
+      background-color: rgb(197, 193, 207);
       border: none;
+      outline: none;
+      transition: box-shadow 0.5s;
+
+      &:focus {
+        border: 2px solid rgb(159, 137, 211);
+        box-shadow: 3px 3px 5px rgb(179, 167, 207);
+      }
     }
   }
 }
@@ -66,6 +67,26 @@
   p {
     cursor: pointer;
     color: blue;
+    transition: transform 1s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  button {
+    background-color: rgb(109, 72, 194);
+    color: white;
+    padding: 15px 50px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: 3px 3px 5px rgb(159, 137, 211);
+    }
   }
 }
 
@@ -73,30 +94,36 @@
   border: 2px solid red !important;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 500px) {
   .form {
-    padding: 1rem;
-    font-size: 16px;
-
-    button {
-      width: 140px;
-      padding: 15px 0;
-      font-size: 16px;
-    }
+    padding: 30px 20px;
   }
-  .heading {
-    font-size: 24px;
+
+  .title {
+    font-size: 22px;
   }
 
   .errorMessage {
     font-size: 12px;
   }
+
   .inputArea {
     label {
+      font-size: 16px;
+
       input {
-        width: 160px;
-        height: 30px;
+        height: 2rem;
       }
+    }
+  }
+
+  .navigation {
+    button {
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 18px;
     }
   }
 }
