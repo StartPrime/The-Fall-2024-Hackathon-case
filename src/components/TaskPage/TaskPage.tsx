@@ -55,7 +55,7 @@ export default function TaskPage() {
     afterTaskId: string | null,
   ): void {
     e.preventDefault();
-
+    console.log(1);
     dispatch(
       moveTask({
         sourceBoardId: currentBoard.id,

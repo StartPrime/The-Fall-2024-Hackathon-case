@@ -5,13 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store.ts';
 import { ITask } from '../../../interfaces.ts';
 import { formatDateStringWithoutDateObject } from '../../../utils.ts';
-import { getCurrentDateInISOFormat } from '../../../utils.ts';
+import {
+  getCurrentDateInISOFormat,
+  RussianLocalization,
+} from '../../../utils.ts';
 import {
   updateTask,
   deleteTask,
   addTask,
 } from '../../../store/slices/User.slice.ts';
-import { clearTask } from '../../../store/slices/Task.slice.ts';
+import { clearTask, setTask } from '../../../store/slices/Task.slice.ts';
 import { Editor } from 'react-draft-wysiwyg';
 import {
   convertFromRaw,
@@ -20,28 +23,10 @@ import {
   RawDraftContentState,
 } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-// import * as XLSX from 'xlsx';
-// import * as XLSXStyle from 'sheetjs-style';
 
 interface CardDialogProps {
   dialogRef: React.RefObject<HTMLDialogElement>;
 }
-
-type WorksheetRow = string[];
-
-const RussianLocalization = {
-  'components.controls.blocktype.h1': 'h1',
-  'components.controls.blocktype.h2': 'h2',
-  'components.controls.blocktype.h3': 'h3',
-  'components.controls.blocktype.h4': 'h4',
-  'components.controls.blocktype.h5': 'h5',
-  'components.controls.blocktype.h6': 'h6',
-  'components.controls.blocktype.blockquote': 'Цитата',
-  'components.controls.blocktype.code': 'Код',
-  'components.controls.blocktype.blocktype': '',
-  'components.controls.blocktype.normal': 'Обычный',
-  'components.controls.inline.monospace': 'Моноширинное пространство',
-};
 
 export default function TaskDialog({ dialogRef }: CardDialogProps) {
   const { task, boardId, taskStatus } = useSelector(
@@ -51,6 +36,7 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
   const dispatch = useDispatch();
 
   const [currentTask, setCurrentTask] = useState<ITask>(task);
+
   useEffect(() => {
     setCurrentTask(task);
     if (task.description) {
@@ -78,66 +64,6 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
     const newEditorState = EditorState.createWithContent(contentState);
     setEditorState(newEditorState);
   };
-
-  const getEditorContent = (editorState: EditorState): string => {
-    const contentState = editorState.getCurrentContent();
-    return contentState.getPlainText();
-  };
-
-  // const exportTasksToExcel = (tasks: ITask[]) => {
-  //   const worksheetData: WorksheetRow[] = [
-  //     ['Заголовок', 'Ответственный', 'Описание', 'Дата создания'],
-  //   ];
-
-  //   tasks.forEach((task) => {
-  //     worksheetData.push([
-  //       task.title,
-  //       task.assignee,
-  //       task.description,
-  //       task.createdAt,
-  //     ]);
-  //   });
-
-  //   const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-
-  //   const headerStyle = {
-  //     font: { bold: true, sz: 12 },
-  //     fill: {
-  //       fgColor: { rgb: 'D9E1F2' },
-  //       patternType: 'solid',
-  //     },
-  //     alignment: { horizontal: 'center' },
-  //   };
-
-  //   const defaultStyle = {
-  //     font: { sz: 11 },
-  //   };
-
-  //   worksheet['!cols'] = [{ wch: 30 }, { wch: 20 }, { wch: 50 }, { wch: 20 }];
-
-  //   const range = XLSX.utils.decode_range(worksheet['!ref'] || 'A1:A1');
-
-  //   for (let C = range.s.c; C <= range.e.c; ++C) {
-  //     const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C });
-  //     if (worksheet[cellAddress]) {
-  //       worksheet[cellAddress].s = headerStyle;
-  //     }
-  //   }
-
-  //   for (let i = 2; i <= worksheetData.length; i++) {
-  //     const row = worksheet[`A${i}`];
-  //     if (row) {
-  //       worksheet[`A${i}`].s = defaultStyle;
-  //       worksheet[`B${i}`].s = defaultStyle;
-  //       worksheet[`C${i}`].s = defaultStyle;
-  //       worksheet[`D${i}`].s = defaultStyle;
-  //     }
-  //   }
-
-  //   const workbook = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(workbook, worksheet, 'Tasks');
-  //   XLSXStyle.writeFile(workbook, 'tasks.xlsx');
-  // };
 
   return (
     <dialog ref={dialogRef} className={classes.dialogWindow}>
@@ -247,22 +173,17 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
             >
               Удалить
             </button>
-            <button
-              onClick={() => {
-                exportTasksToExcel([
-                  {
-                    ...currentTask,
-                    description: getEditorContent(editorState),
-                    createdAt: formatDateStringWithoutDateObject(
-                      task.createdAt,
-                    ),
-                    assignee: task.assignee ? task.assignee : 'Не назначен',
-                  },
-                ]);
+            <select
+              onChange={(e) => {
+                dispatch(deleteTask({ boardId, taskId: task.id }));
+                dispatch(addTask({ boardId: e.target.value, newTask: task }));
+                dispatch(setTask({ task, boardId: e.target.value }));
               }}
             >
-              Экспорт
-            </button>
+              <option>Беклог</option>
+              <option>В процессе</option>
+              <option>Выполнена</option>
+            </select>
           </div>
         )}
       </div>

@@ -18,3 +18,17 @@ export function getCurrentDateInISOFormat(): string {
 
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
+
+export const RussianLocalization = {
+  'components.controls.blocktype.h1': 'h1',
+  'components.controls.blocktype.h2': 'h2',
+  'components.controls.blocktype.h3': 'h3',
+  'components.controls.blocktype.h4': 'h4',
+  'components.controls.blocktype.h5': 'h5',
+  'components.controls.blocktype.h6': 'h6',
+  'components.controls.blocktype.blockquote': 'Цитата',
+  'components.controls.blocktype.code': 'Код',
+  'components.controls.blocktype.blocktype': '',
+  'components.controls.blocktype.normal': 'Обычный',
+  'components.controls.inline.monospace': 'Моноширинное пространство',
+};
