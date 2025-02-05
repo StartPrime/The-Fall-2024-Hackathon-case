@@ -11,7 +11,7 @@
   user-select: none;
   display: flex;
   flex-direction: column;
-
+  align-items: center;
   justify-content: center;
   gap: 10px;
 
@@ -33,15 +33,6 @@
   }
 
   animation: openFilter 1s forwards;
-}
-
-@keyframes openFilter {
-  from {
-    transform: translateX(300%);
-  }
-  to {
-    transform: translateX(0);
-  }
 }
 
 .changeDate {
@@ -89,4 +80,12 @@
 
 .titleFilter {
   font-size: 20px;
+}
+
+.resetFiler {
+  cursor: pointer;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
 }

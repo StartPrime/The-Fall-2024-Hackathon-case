@@ -13,6 +13,7 @@ import {
   updateTask,
   deleteTask,
   addTask,
+  moveTask,
 } from '../../../store/slices/User.slice.ts';
 import { clearTask, setTask } from '../../../store/slices/Task.slice.ts';
 import { Editor } from 'react-draft-wysiwyg';
@@ -104,7 +105,16 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
           />
         </div>
         <div className={classes.assigneeTextAreaDialog}>
-          <p>Ответственный: {task.assignee ? task.assignee : 'не назначен'}</p>
+          <p>Ответственный: </p>
+          <textarea
+            spellCheck="false"
+            placeholder="..."
+            rows={1}
+            value={currentTask.assignee}
+            onChange={(e) =>
+              setCurrentTask({ ...currentTask, assignee: e.target.value })
+            }
+          ></textarea>
         </div>
         <p>
           Дата создания:{' '}
@@ -174,15 +184,22 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
               Удалить
             </button>
             <select
+              value={boardId}
               onChange={(e) => {
-                dispatch(deleteTask({ boardId, taskId: task.id }));
-                dispatch(addTask({ boardId: e.target.value, newTask: task }));
+                dispatch(
+                  moveTask({
+                    sourceBoardId: boardId,
+                    taskId: task.id,
+                    targetBoardId: e.target.value,
+                    afterTaskId: null,
+                  }),
+                );
                 dispatch(setTask({ task, boardId: e.target.value }));
               }}
             >
-              <option>Беклог</option>
-              <option>В процессе</option>
-              <option>Выполнена</option>
+              <option value={'Беклог'}>Беклог</option>
+              <option value={'В процессе'}>В процессе</option>
+              <option value={'Выполнена'}>Выполнена</option>
             </select>
           </div>
         )}

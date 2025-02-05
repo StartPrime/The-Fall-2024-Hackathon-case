@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../../../store/slices/AuthPageSlice.slice.ts';
 import { useLoginUserMutation } from '../../../store/Api.ts';
-
+import Loading from '../../LoadingPage/Loading.tsx';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ interface ILoginError {
 
 export default function Login() {
   const dispatch = useDispatch();
-  const [loginUser, { isError }] = useLoginUserMutation();
+  const [loginUser, { isError, isLoading }] = useLoginUserMutation();
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -44,6 +44,10 @@ export default function Login() {
   } = useForm<ILogin>({
     mode: 'onBlur',
   });
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>

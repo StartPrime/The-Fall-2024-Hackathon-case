@@ -7,10 +7,15 @@ import ProfileDialog from './ProfileDIalog/ProfileDialog.tsx';
 
 interface SearchProps {
   onSearch: (query: string) => void;
-  onFilter: (filter: string) => void;
+  onFilter: (filter: string | null) => void;
+  isFilter: string | null;
 }
 
-const HeaderTaskPage: React.FC<SearchProps> = ({ onSearch, onFilter }) => {
+const HeaderTaskPage: React.FC<SearchProps> = ({
+  onSearch,
+  onFilter,
+  isFilter,
+}) => {
   const [isFocus, setIsFocus] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [filter, setFilter] = useState(false);
@@ -61,7 +66,12 @@ const HeaderTaskPage: React.FC<SearchProps> = ({ onSearch, onFilter }) => {
           >
             <AiOutlineSearch />
 
-            <FilterHeader filter={filter} filterRef={filterRef} />
+            <FilterHeader
+              filter={filter}
+              filterRef={filterRef}
+              onFilter={onFilter}
+              isFilter={isFilter}
+            />
             <input
               onChange={handleInputChange}
               type="search"

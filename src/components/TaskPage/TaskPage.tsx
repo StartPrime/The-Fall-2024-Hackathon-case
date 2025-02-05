@@ -40,7 +40,7 @@ export default function TaskPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFilter, setSearchFilter] = useState<string | null>(null);
 
-  function dragOverHandler(e: DragEvent<HTMLDivElement>): void {
+  function dragOverHandler(e: DragEvent<HTMLElement>): void {
     e.preventDefault();
   }
 
@@ -50,12 +50,12 @@ export default function TaskPage() {
   }
 
   function dropHandler(
-    e: DragEvent<HTMLDivElement>,
+    e: DragEvent<HTMLElement>,
     targetBoardId: string,
     afterTaskId: string | null,
   ): void {
     e.preventDefault();
-    console.log(1);
+
     dispatch(
       moveTask({
         sourceBoardId: currentBoard.id,
@@ -70,7 +70,7 @@ export default function TaskPage() {
     setSearchQuery(query);
   };
 
-  const filterSelection = (filter: string) => {
+  const filterSelection = (filter: string | null) => {
     setSearchFilter(filter);
   };
 
@@ -112,11 +112,15 @@ export default function TaskPage() {
     <>
       <div className={classes.page}>
         <div className={classes.container}>
-          <HeaderTaskPage onSearch={handleSearch} onFilter={filterSelection} />
+          <HeaderTaskPage
+            onSearch={handleSearch}
+            onFilter={filterSelection}
+            isFilter={searchFilter}
+          />
           <div className={classes.boardsContainer}>
             {filterAndSortTasks(boards, searchQuery, searchFilter).map(
               (board) => (
-                <div
+                <section
                   key={board.id}
                   className={classes.boards}
                   onDragOver={(e) => dragOverHandler(e)}
@@ -131,12 +135,6 @@ export default function TaskPage() {
                     <div
                       key={task.id}
                       className="_tasks_1593g_31222156"
-                      onClick={() => {
-                        if (dialogRef.current) {
-                          dispatch(setTask({ task, boardId: board.id }));
-                          dialogRef.current.showModal();
-                        }
-                      }}
                       draggable="true"
                       onDragOver={(e) => dragOverHandler(e)}
                       onDragStart={() => dragStartHandler(board, task)}
@@ -144,12 +142,21 @@ export default function TaskPage() {
                         dropHandler(e, board.id, task.id);
                       }}
                     >
-                      <h2>{task.title}</h2>
-
-                      <p>
-                        Дата создания:{' '}
-                        {formatDateStringWithoutDateObject(task.createdAt)}
-                      </p>
+                      <div
+                        onClick={() => {
+                          if (dialogRef.current) {
+                            dispatch(setTask({ task, boardId: board.id }));
+                            dialogRef.current.showModal();
+                          }
+                        }}
+                      >
+                        <h2>{task.title}</h2>
+                        <br />
+                        <p>
+                          Дата создания:{' '}
+                          {formatDateStringWithoutDateObject(task.createdAt)}
+                        </p>
+                      </div>
 
                       <hr />
                       {task.assignee ? (
@@ -181,7 +188,7 @@ export default function TaskPage() {
                       Добавить задачу
                     </p>
                   </div>
-                </div>
+                </section>
               ),
             )}
           </div>

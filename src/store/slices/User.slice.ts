@@ -3,50 +3,15 @@ import { IUser, ITask, IBoard, IUserInfo } from '../../interfaces.ts';
 const ms: IBoard[] = [
   {
     id: 'Беклог',
-    tasks: [
-      {
-        id: '1',
-        title: 'Спроектировать макет главной страницы',
-        assignee: '',
-        description:
-          '{"blocks":[{"key":"am1gu","text":"dqwdqwdqw","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":4,"length":5,"style":"color-rgb(26,188,156)"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
-        createdAt: '2024-06-20T10:00:00', // Установили конкретную дату
-      },
-      {
-        id: '2',
-        title: 'Написать техническое задание',
-        assignee: 'Петрова А.С.',
-        description:
-          '{"blocks":[{"key":"am1gu","text":"dqwdqwdqw","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":4,"length":5,"style":"color-rgb(26,188,156)"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
-        createdAt: '2024-06-20T12:30:00', // Установили конкретную дату
-      },
-    ],
+    tasks: [],
   },
   {
     id: 'В процессе',
-    tasks: [
-      {
-        id: '3',
-        title: 'Разработка пользовательского интерфейса',
-        assignee: 'Сидоров В.П.',
-        description:
-          '{"blocks":[{"key":"am1gu","text":"dqwdqwdqw","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":4,"length":5,"style":"color-rgb(26,188,156)"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
-        createdAt: '2024-06-21T09:15:00', // Установили конкретную дату
-      },
-    ],
+    tasks: [],
   },
   {
     id: 'Выполнена',
-    tasks: [
-      {
-        id: '4',
-        title: 'Запуск приложения в продакшн',
-        assignee: 'Петрова А.С.',
-        description:
-          '{"blocks":[{"key":"am1gu","text":"dqwdqwdqw","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":4,"length":5,"style":"color-rgb(26,188,156)"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
-        createdAt: '2024-06-22T11:00:00', // Установили конкретную дату
-      },
-    ],
+    tasks: [],
   },
 ];
 
@@ -76,6 +41,7 @@ const UserSlice = createSlice({
       const { boardId, newTask } = action.payload;
       const board = state.boards.find((b) => b.id === boardId);
       if (board) {
+        newTask.id = Math.random().toString(36).substring(2, 15);
         board.tasks.push(newTask);
       }
     },
@@ -114,26 +80,23 @@ const UserSlice = createSlice({
       const { sourceBoardId, taskId, targetBoardId, afterTaskId } =
         action.payload;
 
-      // 1. Находим исходную доску и целевую доску
       const sourceBoard = state.boards.find((b) => b.id === sourceBoardId);
       const targetBoard = state.boards.find((b) => b.id === targetBoardId);
 
       if (!sourceBoard || !targetBoard) {
-        return; // Не нашли доску, ничего не делаем
+        return;
       }
 
-      // 2. Находим задачу, которую нужно переместить
       const taskToMoveIndex = sourceBoard.tasks.findIndex(
         (t) => t.id === taskId,
       );
       if (taskToMoveIndex === -1) {
-        return; // не нашли задачу
+        return;
       }
       const taskToMove = sourceBoard.tasks[taskToMoveIndex];
 
-      // 3. Удаляем задачу из исходной доски
       sourceBoard.tasks.splice(taskToMoveIndex, 1);
-      // 4. Определяем индекс для вставки в целевую доску
+
       let insertIndex = 0;
       if (afterTaskId) {
         const afterTaskIndex = targetBoard.tasks.findIndex(
@@ -144,7 +107,6 @@ const UserSlice = createSlice({
         }
       }
 
-      // 5. Вставляем задачу в целевую доску
       targetBoard.tasks.splice(insertIndex, 0, taskToMove);
     },
   },

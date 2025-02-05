@@ -1,12 +1,18 @@
 import classes from './FilterHeader.module.scss';
-import { BsCheck2 } from 'react-icons/bs';
 
 interface IFilterProps {
   filter: boolean;
   filterRef: React.RefObject<HTMLDivElement>;
+  onFilter: (filter: string | null) => void;
+  isFilter: string | null;
 }
 
-const FilterHeader: React.FC<IFilterProps> = ({ filter, filterRef }) => {
+const FilterHeader: React.FC<IFilterProps> = ({
+  filter,
+  filterRef,
+  onFilter,
+  isFilter,
+}) => {
   return (
     <>
       {filter && (
@@ -17,17 +23,30 @@ const FilterHeader: React.FC<IFilterProps> = ({ filter, filterRef }) => {
               type="date"
               defaultValue={new Date().toLocaleDateString()}
             ></input>
-            <BsCheck2 />
           </div>
           <div className={classes.changeDate}>
             <input type="date"></input>
-            <BsCheck2 />
           </div>
           <div className={classes.assigneeFilter}>
-            <p className={classes.assigneeFilterText}>Ответственный</p>
-            <BsCheck2 />
+            <p
+              className={classes.assigneeFilterText}
+              onClick={() => {
+                onFilter('assignee');
+              }}
+            >
+              Ответственный
+            </p>
           </div>
-          <p onClick={() => {}}>Применить</p>
+          {isFilter ? (
+            <p
+              className={classes.resetFiler}
+              onClick={() => {
+                onFilter(null);
+              }}
+            >
+              Сбросить фильтры
+            </p>
+          ) : null}
         </div>
       )}
     </>

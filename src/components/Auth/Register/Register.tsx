@@ -6,6 +6,7 @@ import { useRegisterUserMutation } from '../../../store/Api.ts';
 import { useState } from 'react';
 import { ApiError } from '../../../interfaces.ts';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../LoadingPage/Loading.tsx';
 
 interface IRegister {
   initials: string;
@@ -16,7 +17,7 @@ interface IRegister {
 
 export default function Register() {
   const dispatch = useDispatch();
-  const [registerUser, { isError }] = useRegisterUserMutation();
+  const [registerUser, { isError, isLoading }] = useRegisterUserMutation();
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
@@ -63,6 +64,10 @@ export default function Register() {
         }
       }
     }
+  }
+
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (

@@ -19,8 +19,7 @@
   cursor: pointer;
   border: 2px solid rgb(159, 137, 211);
   box-shadow: 5px 5px 5px rgb(159, 137, 211);
-  animation: slideHeight 4s ease-out forwards,
-    slideOpacity 1.5s ease-out forwards;
+  animation: slideHeight 2s ease-out forwards, slideOpacity 3s ease-out forwards;
 }
 
 @keyframes slideHeight {

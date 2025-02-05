@@ -24,7 +24,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['authPage', 'userData', 'task'],
+  blacklist: ['authPage', 'task'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
