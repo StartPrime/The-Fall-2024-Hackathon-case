@@ -4,10 +4,11 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { useState, useRef, useEffect } from 'react';
 import FilterHeader from './filterHeader/FilterHeader.tsx';
 import ProfileDialog from './ProfileDIalog/ProfileDialog.tsx';
+import { IDateFilter } from '../../../interfaces.ts';
 
 interface SearchProps {
   onSearch: (query: string) => void;
-  onFilter: (filter: string | null) => void;
+  onFilter: (filter: string | null, dateFilter?: IDateFilter) => void;
   isFilter: string | null;
 }
 

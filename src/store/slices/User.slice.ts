@@ -3,15 +3,38 @@ import { IUser, ITask, IBoard, IUserInfo } from '../../interfaces.ts';
 const ms: IBoard[] = [
   {
     id: 'Беклог',
-    tasks: [],
+    tasks: [
+      {
+        id: '1',
+        title: 'Задача 1',
+        createdAt: '5.02.2025',
+      },
+    ],
   },
   {
     id: 'В процессе',
-    tasks: [],
+    tasks: [
+      {
+        id: '2',
+        title: 'Задача 2',
+        createdAt: '6.02.2025',
+      },
+    ],
   },
   {
     id: 'Выполнена',
-    tasks: [],
+    tasks: [
+      {
+        id: '3',
+        title: 'Задача 3',
+        createdAt: '7.02.2025',
+      },
+      {
+        id: '4',
+        title: 'Задача 4',
+        createdAt: '8.02.2025',
+      },
+    ],
   },
 ];
 

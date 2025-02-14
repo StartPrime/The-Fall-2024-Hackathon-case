@@ -1,9 +1,10 @@
 import classes from './FilterHeader.module.scss';
+import { IDateFilter } from '../../../../interfaces.ts';
 
 interface IFilterProps {
   filter: boolean;
   filterRef: React.RefObject<HTMLDivElement>;
-  onFilter: (filter: string | null) => void;
+  onFilter: (filter: string | null, dateFilter?: IDateFilter) => void;
   isFilter: string | null;
 }
 
@@ -21,11 +22,20 @@ const FilterHeader: React.FC<IFilterProps> = ({
           <div className={classes.changeDate}>
             <input
               type="date"
-              defaultValue={new Date().toLocaleDateString()}
+              onChange={(e) => {
+                const date = e.target.value.split('-').reverse().join('.');
+                onFilter('date', { from: date });
+              }}
             ></input>
           </div>
           <div className={classes.changeDate}>
-            <input type="date"></input>
+            <input
+              type="date"
+              onChange={(e) => {
+                const date = e.target.value.split('-').reverse().join('.');
+                onFilter('date', { to: date });
+              }}
+            ></input>
           </div>
           <div className={classes.assigneeFilter}>
             <p
@@ -41,7 +51,7 @@ const FilterHeader: React.FC<IFilterProps> = ({
             <p
               className={classes.resetFiler}
               onClick={() => {
-                onFilter(null);
+                onFilter(null, { from: null, to: null });
               }}
             >
               Сбросить фильтры

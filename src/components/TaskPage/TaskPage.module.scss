@@ -50,7 +50,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 24px;
+  font-size: 22px;
   cursor: pointer;
   width: fit-content;
   user-select: none;
@@ -64,4 +64,31 @@
 
 .addAssignee {
   font-size: 16px;
+}
+
+.tasksContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .boardsContainer {
+    flex-direction: column;
+  }
+  .boards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    width: 100%;
+  }
+  .tasksContainer {
+    flex-direction: row;
+    overflow: auto;
+    padding: 1rem;
+  }
+  .titleBoard {
+    text-align: left;
+  }
 }

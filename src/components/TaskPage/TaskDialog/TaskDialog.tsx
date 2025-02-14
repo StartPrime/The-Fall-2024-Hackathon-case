@@ -4,11 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store.ts';
 import { ITask } from '../../../interfaces.ts';
-import { formatDateStringWithoutDateObject } from '../../../utils.ts';
-import {
-  getCurrentDateInISOFormat,
-  RussianLocalization,
-} from '../../../utils.ts';
+import { RussianLocalization } from '../../../utils.ts';
 import {
   updateTask,
   deleteTask,
@@ -116,13 +112,7 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
             }
           ></textarea>
         </div>
-        <p>
-          Дата создания:{' '}
-          {taskStatus === 'new'
-            ? data
-            : task.createdAt &&
-              formatDateStringWithoutDateObject(task.createdAt)}
-        </p>
+        <p>Дата создания: {taskStatus === 'new' ? data : task.createdAt}</p>
         {taskStatus === 'new' ? (
           <div className={classes.dialogButtons}>
             <button
@@ -135,7 +125,7 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
                         boardId,
                         newTask: {
                           ...currentTask,
-                          createdAt: getCurrentDateInISOFormat(),
+                          createdAt: data,
                           description: text,
                         },
                       }),
@@ -163,6 +153,10 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
                       task: { ...currentTask, description: text },
                     }),
                   );
+                  if (dialogRef.current) {
+                    dispatch(clearTask());
+                    dialogRef.current.close();
+                  }
                 } else {
                   alert('Название карточки не может быть пустым');
                 }

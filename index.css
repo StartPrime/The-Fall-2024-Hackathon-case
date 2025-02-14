@@ -92,3 +92,10 @@
 .rdw-fontfamily-wrapper {
   display: none !important;
 }
+
+@media (max-width: 1200px) {
+  ._tasks_1593g_31222156 {
+    min-width: 300px;
+    max-width: 300px;
+  }
+}

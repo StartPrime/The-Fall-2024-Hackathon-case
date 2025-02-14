@@ -30,3 +30,8 @@ export interface ApiError {
   data: string;
   error: string;
 }
+
+export interface IDateFilter {
+  from?: string | null;
+  to?: string | null;
+}
