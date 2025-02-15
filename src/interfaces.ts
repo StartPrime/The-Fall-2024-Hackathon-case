@@ -1,9 +1,10 @@
 export interface ITask {
   id: string;
   title: string;
-  assignee: string;
-  description: string;
+  assignee?: string;
+  description?: string;
   createdAt: string;
+  impotent: boolean;
 }
 
 export interface IBoard {

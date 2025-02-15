@@ -177,6 +177,40 @@ export default function TaskDialog({ dialogRef }: CardDialogProps) {
             >
               Удалить
             </button>
+            {currentTask.impotent ? (
+              <button
+                onClick={() => {
+                  dispatch(
+                    updateTask({
+                      boardId,
+                      task: { ...currentTask, impotent: false },
+                    }),
+                  );
+                  if (dialogRef.current) {
+                    dialogRef.current.close();
+                  }
+                }}
+              >
+                Убрать важность
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  dispatch(
+                    updateTask({
+                      boardId,
+                      task: { ...currentTask, impotent: true },
+                    }),
+                  );
+                  if (dialogRef.current) {
+                    dialogRef.current.close();
+                  }
+                }}
+              >
+                Назначить важной
+              </button>
+            )}
+
             <select
               value={boardId}
               onChange={(e) => {

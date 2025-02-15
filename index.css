@@ -8,6 +8,7 @@
 }
 
 ._tasks_1593g_31222156 {
+  position: relative;
   background-color: white;
   border-radius: 8px;
   width: 100%;
@@ -19,7 +20,7 @@
   cursor: pointer;
   border: 2px solid rgb(159, 137, 211);
   box-shadow: 5px 5px 5px rgb(159, 137, 211);
-  animation: slideHeight 2s ease-out forwards, slideOpacity 3s ease-out forwards;
+  animation: slideHeight 1s ease-out forwards, slideOpacity 2s ease-out forwards;
 }
 
 @keyframes slideHeight {
@@ -63,6 +64,7 @@
   border: 1px solid rgb(159, 137, 211) !important;
   border-radius: 10px !important;
   margin: 0 1px !important;
+
   img {
     width: 20px !important;
   }

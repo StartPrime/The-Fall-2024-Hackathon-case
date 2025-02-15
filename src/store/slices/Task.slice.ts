@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ITask } from '../../interfaces.ts';
-import { convertToRaw, EditorState } from 'draft-js';
 
 const TaskSlice = createSlice({
   name: 'task',
@@ -11,6 +10,7 @@ const TaskSlice = createSlice({
       assignee: '',
       description: '',
       createdAt: '',
+      impotent: false,
     } as ITask,
     boardId: '',
     taskStatus: 'old',
@@ -46,6 +46,7 @@ const TaskSlice = createSlice({
         assignee: '',
         description: '',
         createdAt: '',
+        impotent: false,
       };
       state.boardId = '';
       state.taskStatus = 'old';

@@ -15,7 +15,7 @@
   justify-content: space-between;
   gap: 2rem;
   padding-bottom: 1rem;
-  flex-wrap: wrap-reverse;
+  flex-wrap: wrap;
 }
 
 .boards {
@@ -72,9 +72,22 @@
   gap: 1rem;
 }
 
+.importance {
+  position: absolute;
+  border: 1px solid rgb(159, 137, 211);
+  color: white;
+  font-weight: bold;
+  border-radius: 20px;
+  background-color: rgb(211, 4, 4);
+  padding: 10px 10px;
+  right: -2%;
+  bottom: -7%;
+}
+
 @media (max-width: 1200px) {
   .boardsContainer {
     flex-direction: column;
+    width: 100%;
   }
   .boards {
     display: flex;
@@ -83,6 +96,7 @@
     padding: 1rem;
     width: 100%;
   }
+
   .tasksContainer {
     flex-direction: row;
     overflow: auto;

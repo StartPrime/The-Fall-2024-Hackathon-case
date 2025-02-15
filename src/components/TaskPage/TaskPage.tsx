@@ -23,7 +23,14 @@ export default function TaskPage() {
   const [currentBoard, setCurrentBoard] = useState<IBoard>({
     id: '',
     tasks: [
-      { id: '', title: '', assignee: '', description: '', createdAt: '' },
+      {
+        id: '',
+        title: '',
+        assignee: '',
+        description: '',
+        createdAt: '',
+        impotent: false,
+      },
     ],
   });
   const [currentTask, setCurrentTask] = useState<ITask>({
@@ -32,6 +39,7 @@ export default function TaskPage() {
     assignee: '',
     description: '',
     createdAt: '',
+    impotent: false,
   });
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -55,7 +63,6 @@ export default function TaskPage() {
     afterTaskId: string | null,
   ): void {
     e.preventDefault();
-
     dispatch(
       moveTask({
         sourceBoardId: currentBoard.id,
@@ -161,7 +168,7 @@ export default function TaskPage() {
                 className={classes.boards}
                 onDragOver={(e) => dragOverHandler(e)}
                 onDrop={(e) => {
-                  if (board.tasks.length === 0) {
+                  if (currentBoard.id != board.id) {
                     dropHandler(e, board.id, null);
                   }
                 }}
@@ -197,6 +204,9 @@ export default function TaskPage() {
                           <GoPlus size={20} />
                           <p>Добавить Исполнителя</p>
                         </div>
+                      )}
+                      {task.impotent && (
+                        <div className={classes.importance}>Важно</div>
                       )}
                     </div>
                   ))}

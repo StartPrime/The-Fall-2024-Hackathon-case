@@ -8,6 +8,7 @@ const ms: IBoard[] = [
         id: '1',
         title: 'Задача 1',
         createdAt: '5.02.2025',
+        impotent: false,
       },
     ],
   },
@@ -18,6 +19,7 @@ const ms: IBoard[] = [
         id: '2',
         title: 'Задача 2',
         createdAt: '6.02.2025',
+        impotent: false,
       },
     ],
   },
@@ -28,11 +30,13 @@ const ms: IBoard[] = [
         id: '3',
         title: 'Задача 3',
         createdAt: '7.02.2025',
+        impotent: false,
       },
       {
         id: '4',
         title: 'Задача 4',
         createdAt: '8.02.2025',
+        impotent: false,
       },
     ],
   },
@@ -42,8 +46,8 @@ const userInfo: IUserInfo = {
   id: 1,
   login: 'StartPrime',
   name: 'Андрей',
-  surname: 'Горькавой',
-  middleName: 'Александрович',
+  surname: 'Андреев',
+  middleName: 'Андреевич',
 };
 
 const UserSlice = createSlice({
@@ -65,6 +69,7 @@ const UserSlice = createSlice({
       const board = state.boards.find((b) => b.id === boardId);
       if (board) {
         newTask.id = Math.random().toString(36).substring(2, 15);
+        newTask.impotent = false;
         board.tasks.push(newTask);
       }
     },
@@ -128,6 +133,8 @@ const UserSlice = createSlice({
         if (afterTaskIndex !== -1) {
           insertIndex = afterTaskIndex + 1;
         }
+      } else {
+        insertIndex = targetBoard.tasks.length;
       }
 
       targetBoard.tasks.splice(insertIndex, 0, taskToMove);
