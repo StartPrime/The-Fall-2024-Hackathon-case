@@ -1,6 +1,4 @@
-<h1>Task manager</h1>
-
-Техгологии - React.js
+<h1>Task manager, React.js + Vite</h1>
 
 Написан без бэка, соответсвенно авторизации/регистрации нет. 
 <br/>
